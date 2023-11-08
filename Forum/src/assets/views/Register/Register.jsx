@@ -127,6 +127,7 @@ const Register = () => {
         </Form.Group>
         <Button onClick={register}>Register</Button>
       </Form>
+
       <div className="w-100 text-white text-center mt-2">
         Already have account?{' '}
         <Link to="/login" className="text-white">
