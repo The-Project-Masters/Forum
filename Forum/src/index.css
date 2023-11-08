@@ -16,9 +16,14 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #7479d3;
   text-decoration: inherit;
+  padding-left: 10px;
 }
+a.active {
+color: rgb(180, 191, 240);
+}
+
 a:hover {
   color: #535bf2;
 }
