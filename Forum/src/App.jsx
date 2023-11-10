@@ -11,6 +11,7 @@ import Register from './assets/views/Register/Register';
 import Posts from './assets/views/Posts/Posts';
 import UserContext from './assets/providers/user.context';
 
+
 function App() {
   //Manage user context globally
   const [userState, setUserState] = useState({

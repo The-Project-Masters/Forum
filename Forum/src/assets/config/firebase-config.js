@@ -3,7 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
 
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: 'AIzaSyCAW9RcjS4q9WB212O27DEYeh-OD3AnBZU',
     authDomain: 'forum-rado-ventsi.firebaseapp.com',
     projectId: 'forum-rado-ventsi',
@@ -19,3 +19,4 @@ export const auth = getAuth(app);
 // the Realtime Database handler
 export const db = getDatabase(app);
 export const storage = getStorage(app);
+

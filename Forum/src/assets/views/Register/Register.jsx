@@ -14,7 +14,7 @@ const Register = () => {
     firstName: '',
     lastName: '',
   });
-
+  
   const navigate = useNavigate();
 
   const updateForm = (prop) => (e) => {
