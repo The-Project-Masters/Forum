@@ -1,6 +1,6 @@
-import { useState, useContext } from 'react';
 import './Login.css';
 import UserContext from '../../providers/user.context';
+import { useState, useContext } from 'react';
 import { loginUser } from '../../services/auth.service';
 import { getUserData } from '../../services/users.services';
 import { useNavigate } from 'react-router-dom';
@@ -17,64 +17,47 @@ const LogIn = () => {
   const navigate = useNavigate();
 
   const updateForm = (prop) => (e) => {
-    setForm({
-      ...form,
-      [prop]: e.target.value,
-    });
+    setForm({ ...form, [prop]: e.target.value });
   };
 
-  const login = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    loginUser(form.email, form.password)
-      .then((u) => {
-        return getUserData(u.user.uid).then((snapshot) => {
-          if (snapshot.exists()) {
-            setContext({
-              user: u.user,
-              userData: snapshot.val()[Object.keys(snapshot.val())[0]],
-            });
+    try {
+      const { user } = await loginUser(form.email, form.password);
+      const snapshot = await getUserData(user.uid);
 
-            navigate('/home');
-          }
-        });
-      })
-      .catch(console.error);
+      if (snapshot.exists()) {
+        const userData = snapshot.val()[Object.keys(snapshot.val())[0]];
+        setContext({ user, userData });
+        navigate('/home');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <>
       <h2 className="text-white text-center mb-4">Log In</h2>
       <Form className="Form text-center">
-        <Form.Group className="form-group row">
-          <Form.Label htmlFor="email" className="col-sm-2 text-white text-right">
-            Email:{' '}
-          </Form.Label>
-          <Col xs="10">
-            <Form.Control
-              id="email"
-              type="email"
-              value={form.email}
-              required
-              onChange={updateForm('email')}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group className="form-group row">
-          <Form.Label htmlFor="password" className="col-sm-2 text-white text-right">
-            Password:{' '}
-          </Form.Label>
-          <Col xs="10">
-            <Form.Control
-              id="password"
-              type="password"
-              value={form.password}
-              required
-              onChange={updateForm('password')}
-            />
-          </Col>
-        </Form.Group>
-        <Button onClick={login}>Login</Button>
+        {['email', 'password'].map((field) => (
+          <Form.Group key={field} className="form-group row">
+            <Form.Label htmlFor={field} className="col-sm-2 text-white text-right">
+              {field.charAt(0).toUpperCase() + field.slice(1)}:{' '}
+            </Form.Label>
+            <Col xs="10">
+              <Form.Control
+                id={field}
+                type={field === 'email' ? 'email' : 'password'}
+                value={form[field]}
+                required
+                onChange={updateForm(field)}
+              />
+            </Col>
+          </Form.Group>
+        ))}
+        <Button onClick={handleLogin}>Login</Button>
       </Form>
 
       <div className="w-100 text-white text-center mt-2">

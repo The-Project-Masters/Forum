@@ -1,5 +1,5 @@
 import { get, set, query, ref, orderByChild, equalTo } from 'firebase/database';
-import { db } from '../config/firebase-config';
+import { db } from '../config/firebase';
 import { userRoles } from '../common/user-roles';
 
 export const getUserByHandle = (handle) => {
