@@ -15,6 +15,7 @@ import Posts from './assets/views/Posts/Posts';
 import About from './assets/views/About/About';
 import LogoutComponent from './assets/components/LogOut/logOut';
 // import Users from './assets/views/Users/Users';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Container, Row } from 'react-bootstrap';
 
 function App() {
@@ -49,16 +50,6 @@ function App() {
         <Container fluid>
           <div style={{ textAlign: 'center' }}>{loading ? <p>Loading user data</p> : null}</div>
           <Row>
-            <Col className="bg-light">
-              <Routes>
-                <Route index element={<Home />} />
-                <Route path="home" element={<Home />} />
-                <Route path="posts" element={<Posts />} />
-                <Route path="about" element={<About />} />
-                <Route path="register" element={<Home />} />
-                <Route path="login" element={<Home />} />
-              </Routes>
-            </Col>
             <Col sm="3" xs="4" className="bg-secondary">
               <Routes>
                 <Route
@@ -97,6 +88,16 @@ function App() {
                     appState.user === null ? <LogIn /> : <LogoutComponent set={setUserState} />
                   }
                 />
+              </Routes>
+            </Col>
+            <Col className="bg-light">
+              <Routes>
+                <Route index element={<Home />} />
+                <Route path="home" element={<Home />} />
+                <Route path="posts" element={<Posts />} />
+                <Route path="about" element={<About />} />
+                <Route path="register" element={<Home />} />
+                <Route path="login" element={<Home />} />
               </Routes>
             </Col>
           </Row>
