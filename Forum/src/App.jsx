@@ -50,7 +50,7 @@ function App() {
         <Container fluid>
           <div style={{ textAlign: 'center' }}>{loading ? <p>Loading user data</p> : null}</div>
           <Row>
-            <Col sm="3" xs="4" className="bg-secondary">
+            <Col sm="3" xs="4" className="bg-secondary side-nav">
               <Routes>
                 <Route
                   index

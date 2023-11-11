@@ -7,6 +7,18 @@ import { Navbar, Nav } from 'react-bootstrap';
 const Header = ({ loading, appState, userRole }) => {
   const { user } = useContext(UserContext);
 
+  const toggleSideNav = async (e) => {
+    e.preventDefault();
+
+    const navBar = document.querySelector('.side-nav');
+
+    if (navBar.style.marginLeft === '-25%') {
+      navBar.style.marginLeft = '0%';
+    } else {
+      navBar.style.marginLeft = '-25%';
+    }
+  };
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Navbar.Brand as={Link} to="/">
@@ -25,20 +37,14 @@ const Header = ({ loading, appState, userRole }) => {
               </Nav.Link>
               {appState.user === null ? (
                 <>
-                  <Nav.Link as={Link} to="/register">
-                    Register
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/login">
-                    Login
-                  </Nav.Link>
+                  <Nav.Link onClick={toggleSideNav}>Register</Nav.Link>
+                  <Nav.Link onClick={toggleSideNav}>Login</Nav.Link>
                 </>
               ) : (
                 <>
-                  {appState.userData.role >= userRole.ADMIN ? (
+                  {appState.user !== null ? (
                     <>
-                      <Nav.Link as={Link} to="/users">
-                        Users
-                      </Nav.Link>
+                      <Nav.Link onClick={toggleSideNav}>Logout</Nav.Link>
                     </>
                   ) : null}
                 </>

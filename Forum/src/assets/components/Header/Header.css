@@ -1,0 +1,5 @@
+.side-nav {
+    transition: 0.7s ease;
+    height: 100%;
+    margin-left: -25%;
+  }
