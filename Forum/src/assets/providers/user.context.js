@@ -1,11 +1,20 @@
-import { createContext } from 'react';
+import { createContext, useState } from 'react';
 
-const UserContext = createContext({
-  user: null,
-  userData: null,
-  setContext() {
-    // real implementation comes from App.jsx
-  },
-});
+const UserContext = createContext();
 
+const UserProvider = ({ children }) => {
+  const [userContext, setUserContext] = useState({
+    user: null,
+    userData: null,
+    setContext: (user, userData) => {
+      setUserContext({ user, userData });
+    },
+  });
+
+  return (
+    UserContext.Provider({ value: userContext }, children)
+  );
+};
+
+export { UserProvider };
 export default UserContext;

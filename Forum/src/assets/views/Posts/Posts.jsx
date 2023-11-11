@@ -1,20 +1,35 @@
 // Posts.jsx
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { ref, onValue, get } from 'firebase/database';
 import { db } from '../../config/firebase';
 import { addPost } from '../../services/postService';
+import { getUserData } from '../../services/users.services';
+import UserContext from '../../providers/user.context';
 
 export default function Posts() {
   const [posts, setPosts] = useState([]);
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostContent, setNewPostContent] = useState('');
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const postsRef = ref(db, 'posts');
-    const unsubscribe = onValue(postsRef, (snapshot) => {
+    const unsubscribe = onValue(postsRef, async (snapshot) => {
       const postData = snapshot.val();
       if (postData) {
-        const postArray = Object.entries(postData).map(([id, data]) => ({ id, ...data }));
+        const postArray = await Promise.all(
+          Object.entries(postData).map(async ([id, data]) => {
+            if (data.uid) {
+              // Fetch user data for each post
+              const userDataSnapshot = await getUserData(data.uid);
+              const userData = userDataSnapshot.val();
+              return { id, ...data, user: userData }; // Include user data in the post
+            } else {
+              // Handle the case where uid is undefined
+              return { id, ...data, user: null };
+            }
+          })
+        );
         setPosts(postArray);
       }
     });
@@ -23,14 +38,23 @@ export default function Posts() {
   }, []);
 
   const handleAddPost = async () => {
-    await addPost(newPostTitle, newPostContent);
+    await addPost(newPostTitle, newPostContent, user);
     // Fetch and update the posts after adding a new post
-    // (You may also choose to update the state without re-fetching)
     const postsRef = ref(db, 'posts');
     const snapshot = await get(postsRef);
     const postData = snapshot.val();
     if (postData) {
-      const postArray = Object.entries(postData).map(([id, data]) => ({ id, ...data }));
+      const postArray = await Promise.all(
+        Object.entries(postData).map(async ([id, data]) => {
+          if (data.uid) {
+            const userDataSnapshot = await getUserData(data.uid);
+            const userData = userDataSnapshot.val();
+            return { id, ...data, user: userData };
+          } else {
+            return { id, ...data, user: null };
+          }
+        })
+      );
       setPosts(postArray);
     }
 
@@ -59,12 +83,13 @@ export default function Posts() {
       </div>
       {/* Display posts */}
       {posts.map((post) => (
-        <div key={post.id}>
-          <h3>{post.title}</h3>
-          <p>{post.content}</p>
-          {/* Add more post details as needed */}
-        </div>
-      ))}
+  <div key={post.id}>
+    <h3>{post.title}</h3>
+    <p>{post.content}</p>
+    <p>Created by: {post.user?.email || 'Unknown User'}</p>
+    {/* Add more post details as needed */}
+  </div>
+))}
     </div>
   );
 }
