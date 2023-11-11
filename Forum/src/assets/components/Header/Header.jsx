@@ -35,6 +35,16 @@ const Header = ({ loading, appState, userRole }) => {
               <Nav.Link as={Link} to="/posts">
                 Posts
               </Nav.Link>
+
+              {/*Checks if the user is admin*/}
+              {appState.userData.role === 3 && (
+                <>
+                  <Nav.Link as={Link} to="/admin">
+                    Admin
+                  </Nav.Link>
+                </>
+              )}
+
               {appState.user === null ? (
                 <>
                   <Nav.Link onClick={toggleSideNav}>Register</Nav.Link>

@@ -13,6 +13,7 @@ import LogIn from './assets/views/LogIn/LogIn';
 import Register from './assets/views/Register/Register';
 import Posts from './assets/views/Posts/Posts';
 import About from './assets/views/About/About';
+import Admin from './assets/views/Admin/Admin';
 import LogoutComponent from './assets/components/LogOut/logOut';
 // import Users from './assets/views/Users/Users';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -77,7 +78,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="users"
+                  path="admin"
                   element={
                     appState.user === null ? <LogIn /> : <LogoutComponent set={setUserState} />
                   }
@@ -96,6 +97,16 @@ function App() {
                 <Route path="home" element={<Home />} />
                 <Route path="posts" element={<Posts />} />
                 <Route path="about" element={<About />} />
+                <Route
+                  path="admin"
+                  element={
+                    appState.userData.role === 3 ? (
+                      <Admin />
+                    ) : (
+                      "You don't have access to the admin page."
+                    )
+                  }
+                />
                 <Route path="register" element={<Home />} />
                 <Route path="login" element={<Home />} />
               </Routes>
