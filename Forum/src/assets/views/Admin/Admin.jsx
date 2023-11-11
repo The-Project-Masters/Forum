@@ -13,9 +13,7 @@ const Admin = () => {
 
   useEffect(() => {
     const listen = (snapshot) => {
-      console.log('users changes detected');
       !snapshot.exists() && setUserDatas([]);
-
       setUserDatas(Object.keys(snapshot.val()).map((key) => snapshot.val()[key]));
     };
 
@@ -27,10 +25,6 @@ const Admin = () => {
   }, []);
 
   const blockUser = (handle) => {
-    if (handle === userData.handle) {
-      alert("You can't block yourself");
-      return;
-    }
     updateUserRole(handle, userRoles.BLOCKED);
   };
   const unblockUser = (handle) => {

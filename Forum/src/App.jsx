@@ -100,7 +100,7 @@ function App() {
                 <Route
                   path="admin"
                   element={
-                    appState.userData.role === 3 ? (
+                    appState.userData.role === userRoles.ADMIN ? (
                       <Admin />
                     ) : (
                       "You don't have access to the admin page."

@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import UserContext from '../../providers/user.context';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
+import { userRoles } from '../../common/user-roles';
 
 const Header = ({ loading, appState, userRole }) => {
   const { user } = useContext(UserContext);
@@ -37,7 +38,7 @@ const Header = ({ loading, appState, userRole }) => {
               </Nav.Link>
 
               {/*Checks if the user is admin*/}
-              {appState.userData.role === 3 && (
+              {appState.userData.role === userRoles.ADMIN && (
                 <>
                   <Nav.Link as={Link} to="/admin">
                     Admin

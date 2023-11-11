@@ -1,6 +1,5 @@
 export const userRoles = {
-    BLOCKED: 0,
-    BASIC: 1,
-    MODERATOR: 2,
-    ADMIN: 3,
+  BLOCKED: 0,
+  BASIC: 1,
+  ADMIN: 2,
 };
