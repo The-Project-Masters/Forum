@@ -86,7 +86,7 @@ export default function Posts() {
   <div key={post.id}>
     <h3>{post.title}</h3>
     <p>{post.content}</p>
-    <p>Created by: {post.user?.email || 'Unknown User'}</p>
+    <p>Created by: {user.email || 'Unknown User'}</p>
     {/* Add more post details as needed */}
   </div>
 ))}

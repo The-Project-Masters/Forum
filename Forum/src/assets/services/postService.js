@@ -14,7 +14,7 @@ export const addPost = async (title, content, user) => {
         // Add other user details as needed
       },
     };
-  
+//   console.log('Posts:', user.email)
     const postsRef = ref(db, 'posts');
-    await push(postsRef, post);
+    await push(postsRef, post,);
   };
