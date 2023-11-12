@@ -1,14 +1,14 @@
-import { useEffect, useState, useContext } from "react";
-import PropTypes from "prop-types";
-import { ref, onValue, push } from "firebase/database";
-import { db } from "../../config/firebase";
-import UserContext from "../../providers/user.context";
-import LikesDislikes from "../Likes-Dislikes/LikesDislikes";
+import { useEffect, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
+import { ref, onValue, push } from 'firebase/database';
+import { db } from '../../config/firebase';
+import UserContext from '../../providers/user.context';
+import LikesDislikes from '../Likes-Dislikes/LikesDislikes';
 
 export default function Comments({ postId }) {
   const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
-  const { user } = useContext(UserContext);
+  const [newComment, setNewComment] = useState('');
+  const { user, userData } = useContext(UserContext);
 
   useEffect(() => {
     const commentsRef = ref(db, `comments/${postId}`);
@@ -16,12 +16,10 @@ export default function Comments({ postId }) {
     const commentsUnsubscribe = onValue(commentsRef, (snapshot) => {
       const commentsData = snapshot.val();
       if (commentsData) {
-        const commentsArray = Object.entries(commentsData).map(
-          ([id, data]) => ({
-            id,
-            ...data,
-          })
-        );
+        const commentsArray = Object.entries(commentsData).map(([id, data]) => ({
+          id,
+          ...data,
+        }));
         setComments(commentsArray);
       }
     });
@@ -33,21 +31,26 @@ export default function Comments({ postId }) {
 
   const handleAddComment = () => {
     const commentsRef = ref(db, `comments/${postId}`);
-    push(commentsRef, { content: newComment, uid: user.uid });
-    setNewComment("");
+    push(commentsRef, { content: newComment, userData: userData });
+    setNewComment('');
   };
 
   return (
-    <div>
+    <div className="mt-2 mb-2 p-3 card">
       <h4>Comments:</h4>
-      <ul>
+      <div className="list-group list-group-flush">
         {comments.map((comment) => (
-          <li key={comment.id}>
-            <p>{user ? user.email || "Unknown User" : "Unknown User"} : {comment.content}</p>
+          <div className="list-glist-group-item" key={comment.id}>
+            <div className="mt-4 mb-4">
+              <h5>
+                {comment.userData ? comment.userData.handle || 'Unknown User' : 'Unknown User'}
+              </h5>
+              <div>{comment.content}</div>
+            </div>
             <LikesDislikes postId={postId} commentId={comment.id} />
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
       <div>
         <textarea
           value={newComment}
