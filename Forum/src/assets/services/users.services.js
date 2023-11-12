@@ -1,4 +1,13 @@
-import { get, set, query, ref, orderByChild, equalTo } from 'firebase/database';
+import {
+  get,
+  set,
+  query,
+  ref,
+  orderByChild,
+  equalTo,
+  update,
+  onChildChanged,
+} from 'firebase/database';
 import { db } from '../config/firebase';
 import { userRoles } from '../common/user-roles';
 
@@ -21,4 +30,20 @@ export const createUserHandle = (handle, firstName, lastName, uid, email) => {
 
 export const getUserData = (uid) => {
   return get(query(ref(db, 'users'), orderByChild('uid'), equalTo(uid)));
+};
+
+export const getUserDatas = () => {
+  return get(ref(db, 'users'));
+};
+
+export const getLiveUserDatas = (listen) => {
+  return onChildChanged(ref(db, 'users'), () => {
+    get(ref(db, 'users')).then(listen);
+  });
+};
+
+export const updateUserRole = (handle, role) => {
+  return update(ref(db), {
+    [`users/${handle}/role`]: role,
+  });
 };
