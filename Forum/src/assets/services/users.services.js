@@ -47,3 +47,8 @@ export const updateUserRole = (handle, role) => {
     [`users/${handle}/role`]: role,
   });
 };
+
+export const updateUserInfo = async (handle, field, value) => {
+  const userRef = ref(db, `users/${handle}`);
+  await update(userRef, { [field]: value });
+};

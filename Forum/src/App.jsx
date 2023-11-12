@@ -14,8 +14,8 @@ import Register from './assets/views/Register/Register';
 import Posts from './assets/views/Posts/Posts';
 import About from './assets/views/About/About';
 import Admin from './assets/views/Admin/Admin';
+import MyProfile from './assets/views/MyProfile/MyProfile';
 import LogoutComponent from './assets/components/LogOut/logOut';
-// import Users from './assets/views/Users/Users';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Container, Row } from 'react-bootstrap';
 
@@ -89,6 +89,12 @@ function App() {
                     appState.user === null ? <LogIn /> : <LogoutComponent set={setUserState} />
                   }
                 />
+                <Route
+                  path="myProfile"
+                  element={
+                    appState.user === null ? <LogIn /> : <LogoutComponent set={setUserState} />
+                  }
+                />
               </Routes>
             </Col>
             <Col className="bg-light">
@@ -104,6 +110,16 @@ function App() {
                       <Admin />
                     ) : (
                       "You don't have access to the admin page."
+                    )
+                  }
+                />
+                <Route
+                  path="myProfile"
+                  element={
+                    appState.user !== null ? (
+                      <MyProfile />
+                    ) : (
+                      'Please log in to see your profile information.'
                     )
                   }
                 />

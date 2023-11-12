@@ -55,6 +55,9 @@ const Header = ({ loading, appState, userRole }) => {
                 <>
                   {appState.user !== null ? (
                     <>
+                      <Nav.Link as={Link} to="/myProfile">
+                        My Profile
+                      </Nav.Link>
                       <Nav.Link onClick={toggleSideNav}>Logout</Nav.Link>
                     </>
                   ) : null}
