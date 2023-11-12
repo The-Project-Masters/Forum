@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { ref, onValue, get } from "firebase/database";
 import { db } from "../../config/firebase";
 import LikesDislikes from "../../components/Likes-Dislikes/LikesDislikes";
 import Comments from "../../components/Comments/Comments";
+import UserContext from "../../providers/user.context"; // Import your user context
 
 export default function Home() {
   const [mostLikedPosts, setMostLikedPosts] = useState([]);
   const [mostRecentPosts, setMostRecentPosts] = useState([]);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,12 +47,12 @@ export default function Home() {
 
         if (postData) {
           const sortedRecentPosts = Object.entries(postData)
-          .sort(([, postA], [, postB]) => postB.timestamp - postA.timestamp)
-          .slice(-10)
-          .map(([postId, post]) => ({ postId, ...post }))
-          .reverse()
-        
-        setMostRecentPosts(sortedRecentPosts);
+            .sort(([, postA], [, postB]) => postB.timestamp - postA.timestamp)
+            .slice(-10)
+            .map(([postId, post]) => ({ postId, ...post }))
+            .reverse();
+
+          setMostRecentPosts(sortedRecentPosts);
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -63,7 +65,7 @@ export default function Home() {
     const unsubscribe = onValue(postsRef, fetchData);
 
     return () => unsubscribe();
-  }, []);
+  }, [user]); // Add user to the dependency array
 
   return (
     <div>

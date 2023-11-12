@@ -20,7 +20,7 @@ export default function Posts() {
     try {
       const snapshot = await get(postsRef);
       const postData = snapshot.val();
-
+  
       if (postData) {
         const postArray = await Promise.all(
           Object.entries(postData).map(async ([id, data]) => {
@@ -81,15 +81,16 @@ export default function Posts() {
         </button>
       </div>
       {posts.map((post) => (
-        <div key={post.id}>
-          <p>Created by: {user.email}</p>
-          <h3>{post.title}</h3>
-          <p>{post.content}</p>
-          {/* pass postId to LikesDislikes and Comments */}
-          <LikesDislikes postId={post.id} />
-          <Comments postId={post.id} />
-        </div>
-      ))}
+  <div key={post.id}>
+    {/* Move user.email inside the map function */}
+    <p>Created by: {post.user ? post.user.email : "Unknown User"}</p>
+    <h3>{post.title}</h3>
+    <p>{post.content}</p>
+    {/* pass postId to LikesDislikes and Comments */}
+    <LikesDislikes postId={post.id} />
+    <Comments postId={post.id} />
+  </div>
+))}
     </div>
   );
 }

@@ -38,55 +38,59 @@ export default function LikesDislikes({ postId, commentId }) {
   }, [postId, commentId]);
 
   const handleLike = () => {
-    const likesRef = commentId
-      ? ref(db, `likes/${postId}/${commentId}`)
-      : ref(db, `likes/${postId}`);
+    if (user) {
+      const likesRef = commentId
+        ? ref(db, `likes/${postId}/${commentId}`)
+        : ref(db, `likes/${postId}`);
 
-    // Check if the user has already liked
-    if (likes && likes[user.uid]) {
-      // User already liked, remove the like
-      setLikes((prevLikes) => {
-        const updatedLikes = { ...prevLikes };
-        delete updatedLikes[user.uid];
-        return updatedLikes;
-      });
-      // Update the database
-      set(likesRef, likes);
-    } else {
-      // User has not liked, add the like
-      setLikes((prevLikes) => ({ ...prevLikes, [user.uid]: true }));
-      set(likesRef, { ...likes, [user.uid]: true });
+      // Check if the user has already liked
+      if (likes && likes[user.uid]) {
+        // User already liked, remove the like
+        setLikes((prevLikes) => {
+          const updatedLikes = { ...prevLikes };
+          delete updatedLikes[user.uid];
+          return updatedLikes;
+        });
+        // Update the database
+        set(likesRef, likes);
+      } else {
+        // User has not liked, add the like
+        setLikes((prevLikes) => ({ ...prevLikes, [user.uid]: true }));
+        set(likesRef, { ...likes, [user.uid]: true });
+      }
     }
   };
 
   const handleDislike = () => {
-    const dislikesRef = commentId
-      ? ref(db, `dislikes/${postId}/${commentId}`)
-      : ref(db, `dislikes/${postId}`);
+    if (user) {
+      const dislikesRef = commentId
+        ? ref(db, `dislikes/${postId}/${commentId}`)
+        : ref(db, `dislikes/${postId}`);
 
-    // Check if the user has already disliked
-    if (dislikes && dislikes[user.uid]) {
-      // User already disliked, remove the dislike
-      setDislikes((prevDislikes) => {
-        const updatedDislikes = { ...prevDislikes };
-        delete updatedDislikes[user.uid];
-        return updatedDislikes;
-      });
-      set(dislikesRef, dislikes);
-    } else {
-      // User has not disliked, add the dislike
-      setDislikes((prevDislikes) => ({ ...prevDislikes, [user.uid]: true }));
-      set(dislikesRef, { ...dislikes, [user.uid]: true });
+      // Check if the user has already disliked
+      if (dislikes && dislikes[user.uid]) {
+        // User already disliked, remove the dislike
+        setDislikes((prevDislikes) => {
+          const updatedDislikes = { ...prevDislikes };
+          delete updatedDislikes[user.uid];
+          return updatedDislikes;
+        });
+        set(dislikesRef, dislikes);
+      } else {
+        // User has not disliked, add the dislike
+        setDislikes((prevDislikes) => ({ ...prevDislikes, [user.uid]: true }));
+        set(dislikesRef, { ...dislikes, [user.uid]: true });
+      }
     }
   };
 
   return (
     <div>
       <button onClick={handleLike}>
-        Like ({likes && likes[user.uid] ? 1 : 0})
+        Like ({likes && likes[user?.uid] ? 1 : 0})
       </button>
       <button onClick={handleDislike}>
-        Dislike ({dislikes && dislikes[user.uid] ? 1 : 0})
+        Dislike ({dislikes && dislikes[user?.uid] ? 1 : 0})
       </button>
     </div>
   );

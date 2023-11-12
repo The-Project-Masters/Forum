@@ -43,7 +43,7 @@ export default function Comments({ postId }) {
       <ul>
         {comments.map((comment) => (
           <li key={comment.id}>
-            <p>{user.email || "Unknown User"} : {comment.content}</p>
+            <p>{user ? user.email || "Unknown User" : "Unknown User"} : {comment.content}</p>
             <LikesDislikes postId={postId} commentId={comment.id} />
           </li>
         ))}
