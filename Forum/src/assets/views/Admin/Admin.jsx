@@ -39,7 +39,7 @@ const Admin = () => {
   };
 
   return (
-    <>
+    <div className="card mt-4 mb-4 p-4">
       <h2>This is the Admin page</h2>
 
       <Card className="mt-4 mb-4 ">
@@ -57,7 +57,7 @@ const Admin = () => {
           ))}
         </ListGroup>
       </Card>
-    </>
+    </div>
   );
 };
 

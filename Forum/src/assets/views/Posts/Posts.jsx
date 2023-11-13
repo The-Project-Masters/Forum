@@ -1,3 +1,4 @@
+import './Posts.css';
 import { useEffect, useState, useContext } from 'react';
 import { ref, onValue, get } from 'firebase/database';
 import { db } from '../../config/firebase';
@@ -51,50 +52,60 @@ export default function Posts() {
 
   return (
     <div>
-      <div className="card mt-4 mb-4 p-4">
-        <h2>This is where you read and create posts</h2>
-        <div className="p-4">
-          <label>Title:</label>
+      <form className="card mt-4 mb-4 p-4">
+        <h2 className="mb-4">Create new post</h2>
+        <div className="mb-3">
+          <label className="form-label">Title:</label>
           <input
+            className="form-control"
             type="text"
             value={newPostTitle}
             onChange={(e) => setNewPostTitle(e.target.value)}
           />
         </div>
-        <div>
-          <label>Content:</label>
-          <textarea value={newPostContent} onChange={(e) => setNewPostContent(e.target.value)} />
+        <div className="mb-3">
+          <label className="form-label">Content:</label>
+          <textarea
+            className="form-control"
+            value={newPostContent}
+            onChange={(e) => setNewPostContent(e.target.value)}
+          />
         </div>
         <div>
-          <button type="button" onClick={handleAddPost}>
+          <button type="button" className="btn btn-primary mt-2" onClick={handleAddPost}>
             Create Post
           </button>
         </div>
-      </div>
-      {posts.map((post) => (
-        <div className="card mb-4" key={post.id}>
-          {/* Move user.email inside the map function */}
-          <div className="bg-success text-white h4 card-header">{post.title}</div>
-          <div className="card-body">
-            <p>{post.content}</p>
-            <hr />
-            <div className="row">
-              <div className="col-md-6 align-items-start">
-                <p>
-                  Created by: <strong>@{post.user ? post.user.handle : 'Unknown User'}</strong>
-                </p>
-              </div>
-              <div className="col-md-6 align-items-end">
-                {/* pass postId to LikesDislikes and Comments */}
-                <LikesDislikes postId={post.id} />
+      </form>
+
+      {posts
+        .slice()
+        .reverse()
+        .map((post) => (
+          <div className="card mb-4" key={post.id}>
+            <div className="bg-dark text-white h4 p-3 card-header">
+              {post.title}
+              {/* Move user.email here */}
+            </div>
+            <div className="card-body">
+              <p>{post.content}</p>
+              <hr />
+              <div className="row">
+                <div className="col-md-6 align-items-start">
+                  <p className="mb-0">
+                    Author: <strong>@{post.user ? post.user.handle : 'Unknown User'}</strong>
+                  </p>
+                </div>
+                <div className="col-md-6 align-items-end">
+                  <LikesDislikes postId={post.id} />
+                </div>
               </div>
             </div>
+            <div className="card-footer">
+              <Comments postId={post.id} />
+            </div>
           </div>
-          <div className="card-footer">
-            <Comments postId={post.id} />
-          </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }

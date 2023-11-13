@@ -1,13 +1,13 @@
-import { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
-import { ref, onValue, set } from "firebase/database";
-import { db } from "../../config/firebase";
-import UserContext from "../../providers/user.context";
+import { useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
+import { ref, onValue, set, update } from 'firebase/database';
+import { db } from '../../config/firebase';
+import UserContext from '../../providers/user.context';
 
 export default function LikesDislikes({ postId, commentId }) {
   const [likes, setLikes] = useState({});
   const [dislikes, setDislikes] = useState({});
-  const { user } = useContext(UserContext);
+  const { user, userData } = useContext(UserContext);
 
   useEffect(() => {
     const likesRef = commentId
@@ -19,6 +19,7 @@ export default function LikesDislikes({ postId, commentId }) {
 
     const likesUnsubscribe = onValue(likesRef, (snapshot) => {
       const likesData = snapshot.val();
+      // console.log(likesData);
       if (likesData) {
         setLikes(likesData);
       }
@@ -42,21 +43,21 @@ export default function LikesDislikes({ postId, commentId }) {
       const likesRef = commentId
         ? ref(db, `likes/${postId}/${commentId}`)
         : ref(db, `likes/${postId}`);
-
       // Check if the user has already liked
       if (likes && likes[user.uid]) {
         // User already liked, remove the like
         setLikes((prevLikes) => {
           const updatedLikes = { ...prevLikes };
           delete updatedLikes[user.uid];
+          // Update the database with the updatedLikes
+          set(likesRef, updatedLikes);
+          update(ref(db), updatedLikes);
           return updatedLikes;
         });
-        // Update the database
-        set(likesRef, likes);
       } else {
         // User has not liked, add the like
         setLikes((prevLikes) => ({ ...prevLikes, [user.uid]: true }));
-        set(likesRef, { ...likes, [user.uid]: true });
+        update(likesRef, { ...likes, [user.uid]: true });
       }
     }
   };
@@ -73,24 +74,24 @@ export default function LikesDislikes({ postId, commentId }) {
         setDislikes((prevDislikes) => {
           const updatedDislikes = { ...prevDislikes };
           delete updatedDislikes[user.uid];
+          set(dislikesRef, updatedDislikes);
           return updatedDislikes;
         });
-        set(dislikesRef, dislikes);
       } else {
         // User has not disliked, add the dislike
         setDislikes((prevDislikes) => ({ ...prevDislikes, [user.uid]: true }));
-        set(dislikesRef, { ...dislikes, [user.uid]: true });
+        update(dislikesRef, { ...dislikes, [user.uid]: true });
       }
     }
   };
 
   return (
     <div>
-      <button onClick={handleLike}>
-        Like ({likes && likes[user?.uid] ? 1 : 0})
+      <button className="btn-success btn m-1" onClick={handleLike}>
+        Like ({Object.keys(likes || {}).length})
       </button>
-      <button onClick={handleDislike}>
-        Dislike ({dislikes && dislikes[user?.uid] ? 1 : 0})
+      <button className="btn-danger btn m-1" onClick={handleDislike}>
+        Dislike ({Object.keys(dislikes || {}).length})
       </button>
     </div>
   );

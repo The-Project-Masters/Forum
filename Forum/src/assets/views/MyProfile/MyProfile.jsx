@@ -54,11 +54,11 @@ const MyProfile = () => {
   };
 
   return (
-    <>
+    <div className="card mt-4 mb-4 p-4">
       <h2 className="mb-4">My Profile</h2>
       <Form className="Form">
         {['email', 'firstName', 'lastName'].map((field) => (
-          <Form.Group key={field} className="form-group row">
+          <Form.Group key={field} className="form-group row mt-2 mb-2">
             <Form.Label htmlFor={field} className={`col-sm-3 text-right`}>
               {field === 'firstName'
                 ? 'First name'
@@ -79,7 +79,7 @@ const MyProfile = () => {
         ))}
         <Button onClick={handleProfileUpdate}>Update information</Button>
       </Form>
-    </>
+    </div>
   );
 };
 
