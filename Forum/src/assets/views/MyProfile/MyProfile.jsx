@@ -37,6 +37,15 @@ const MyProfile = () => {
       return alert('First name and last name cannot be empty');
     }
 
+    // Checks for length of first name and last name
+    if (form.firstName.length < 4 || form.lastName.length < 4) {
+      return alert('First name and last name should be at less 4 symbols long.');
+    }
+
+    if (form.firstName.length > 32 || form.lastName.length > 32) {
+      return alert('First name and last name should be no longer than 32 symbols.');
+    }
+
     try {
       // Update user info in Firebase
       await updateUserInfo(userData.handle, 'email', form.email);

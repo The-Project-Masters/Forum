@@ -45,6 +45,16 @@ export default function Posts() {
   }, []);
 
   const handleAddPost = async () => {
+    if (newPostTitle.length < 16 || newPostTitle.length > 64) {
+      alert('Title should be between 16 and 64 symbols long.');
+      return;
+    }
+
+    if (newPostContent.length < 32 || newPostContent.length > 8192) {
+      alert('The content should be between 16 and 64 symbols long.');
+      return;
+    }
+
     await addPost(newPostTitle, newPostContent, userData);
     setNewPostTitle('');
     setNewPostContent('');
@@ -57,18 +67,20 @@ export default function Posts() {
         <div className="mb-3">
           <label className="form-label">Title:</label>
           <input
-            className="form-control"
+            className="form-control bruh"
             type="text"
-            value={newPostTitle}
             onChange={(e) => setNewPostTitle(e.target.value)}
+            required="true"
+            value={newPostTitle}
           />
         </div>
         <div className="mb-3">
           <label className="form-label">Content:</label>
           <textarea
             className="form-control"
-            value={newPostContent}
             onChange={(e) => setNewPostContent(e.target.value)}
+            required="true"
+            value={newPostContent}
           />
         </div>
         <div>
