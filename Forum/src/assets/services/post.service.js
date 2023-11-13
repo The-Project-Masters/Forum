@@ -1,5 +1,5 @@
 // postsService.js
-import { ref, push } from 'firebase/database';
+import { ref, push, remove } from 'firebase/database';
 import { db } from '../config/firebase';
 
 export const addPost = async (title, content, userData) => {
@@ -14,4 +14,9 @@ export const addPost = async (title, content, userData) => {
   };
   const postsRef = ref(db, 'posts');
   await push(postsRef, post);
+};
+
+export const deletePost = async (postId) => {
+  const postRef = ref(db, `posts/${postId}`);
+  await remove(postRef);
 };

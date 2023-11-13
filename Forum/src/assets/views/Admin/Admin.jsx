@@ -14,8 +14,11 @@ const Admin = () => {
       !snapshot.exists() && setUserDatas([]);
       const users = Object.keys(snapshot.val()).map((key) => snapshot.val()[key]);
       // Filter users based on the search query
-      const filteredUsers = users.filter((user) =>
-        user.handle.toLowerCase().includes(searchQuery.toLowerCase())
+      const filteredUsers = users.filter(
+        (user) =>
+          user.handle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setUserDatas(filteredUsers);
     };

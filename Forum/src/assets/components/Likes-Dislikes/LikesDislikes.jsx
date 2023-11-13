@@ -19,7 +19,6 @@ export default function LikesDislikes({ postId, commentId }) {
 
     const likesUnsubscribe = onValue(likesRef, (snapshot) => {
       const likesData = snapshot.val();
-      // console.log(likesData);
       if (likesData) {
         setLikes(likesData);
       }
