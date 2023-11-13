@@ -7,14 +7,18 @@
   height: 100vh;
 }
 
-.navbar {
-  height: 80px
-}
+#root .navbar {
+  height: 80px;
+  position: fixed;
+  width: 100%;
+  z-index: 10000;
+} 
 
 #root > .container-fluid {
-  height: calc(100vh - 80px);
+  min-height: 100vh;
+  margin-top: 80px;
 }
 
 #root > .container-fluid > .row {
-  height: calc(100vh - 80px);
+  min-height: 100vh;
 }
