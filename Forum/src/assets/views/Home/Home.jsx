@@ -104,9 +104,7 @@ export default function Home() {
   };
 
   const handleExpandCommentedPost = (postId) => {
-    setExpandedCommentedPost(
-      postId === expandedCommentedPost ? null : postId
-    );
+    setExpandedCommentedPost(postId === expandedCommentedPost ? null : postId);
   };
 
   return (
@@ -183,7 +181,6 @@ export default function Home() {
             <div className="h2 text-center mb-4 card-header bg-primary text-white p-3">
               Most recent posts
             </div>
-<<<<<<< HEAD
             {mostCommentedPosts.map((post) => (
               <div className="card m-3 mb-3 mt-0" key={post.postId}>
                 <div className="bg-dark text-white h5 p-3 card-header">{post.title}</div>
@@ -213,35 +210,6 @@ export default function Home() {
                       <LikesDislikes postId={post.postId} />
                     </div>
                   </div>
-=======
-            <div className="card-body">
-              {expandedCommentedPost === post.postId ? (
-                <div>
-                  <p>{post.content}</p>
-                  <hr />
-                  <Comments postId={post.postId} />
-                </div>
-              ) : (
-                <p>{post.content.slice(0, 100)}...</p>
-              )}
-              <div className="row">
-                <div className="col-md-6 align-items-start">
-                  <p>
-                    Created by:{" "}
-                    <strong>
-                      @{post.user ? post.user.handle : "Unknown User"}
-                    </strong>
-                  </p>
-                </div>
-                <div className="col-md-6 align-items-end">
-                  <LikesDislikes postId={post.postId} />
-                  <button
-                    className="btn btn-link"
-                    onClick={() => handleExpandCommentedPost(post.postId)}
-                  >
-                    {expandedCommentedPost === post.postId ? "Collapse" : "View"}
-                  </button>
->>>>>>> 56ab6b5f80a09da2edb0a571a14f2a961c83dd3f
                 </div>
               </div>
             ))}
