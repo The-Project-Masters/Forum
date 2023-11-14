@@ -10,7 +10,8 @@ export default function Home() {
   const [mostRecentPosts, setMostRecentPosts] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalPosts, setTotalPosts] = useState(0);
-  const [expandedPost, setExpandedPost] = useState(null); // New state
+  const [expandedRecentPost, setExpandedRecentPost] = useState(null);
+  const [expandedCommentedPost, setExpandedCommentedPost] = useState(null);
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -102,8 +103,14 @@ export default function Home() {
     return () => unsubscribe();
   }, [user]);
 
-  const handleExpandPost = (postId) => {
-    setExpandedPost(postId === expandedPost ? null : postId);
+  const handleExpandRecentPost = (postId) => {
+    setExpandedRecentPost(postId === expandedRecentPost ? null : postId);
+  };
+
+  const handleExpandCommentedPost = (postId) => {
+    setExpandedCommentedPost(
+      postId === expandedCommentedPost ? null : postId
+    );
   };
 
   return (
@@ -130,7 +137,7 @@ export default function Home() {
               {post.title}
             </div>
             <div className="card-body">
-              {expandedPost === post.postId ? (
+              {expandedRecentPost === post.postId ? (
                 <div>
                   <p>{post.content}</p>
                   <hr />
@@ -152,9 +159,9 @@ export default function Home() {
                   <LikesDislikes postId={post.postId} />
                   <button
                     className="btn btn-link"
-                    onClick={() => handleExpandPost(post.postId)}
+                    onClick={() => handleExpandRecentPost(post.postId)}
                   >
-                    {expandedPost === post.postId ? "Collapse" : "View"}
+                    {expandedRecentPost === post.postId ? "Collapse" : "View"}
                   </button>
                 </div>
               </div>
@@ -170,7 +177,7 @@ export default function Home() {
               {post.title}
             </div>
             <div className="card-body">
-              {expandedPost === post.postId ? (
+              {expandedCommentedPost === post.postId ? (
                 <div>
                   <p>{post.content}</p>
                   <hr />
@@ -192,9 +199,9 @@ export default function Home() {
                   <LikesDislikes postId={post.postId} />
                   <button
                     className="btn btn-link"
-                    onClick={() => handleExpandPost(post.postId)}
+                    onClick={() => handleExpandCommentedPost(post.postId)}
                   >
-                    {expandedPost === post.postId ? "Collapse" : "View"}
+                    {expandedCommentedPost === post.postId ? "Collapse" : "View"}
                   </button>
                 </div>
               </div>
