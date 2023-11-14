@@ -87,7 +87,7 @@ export default function Home() {
         setTotalUsers(totalUsers);
         setTotalPosts(totalPosts);
       } catch (error) {
-        console.error('dError fetching data:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
@@ -146,7 +146,7 @@ export default function Home() {
               <div className="card m-3 mb-3 mt-0" key={post.postId}>
                 <div className="bg-dark text-white h5 p-3 card-header">{post.title}</div>
                 <div className="card-body">
-                  {expandedPost === post.postId ? (
+                  {expandedRecentPost === post.postId ? (
                     <div>
                       <p>{post.content}</p>
                       <hr />
@@ -161,9 +161,9 @@ export default function Home() {
                       <div>
                         <button
                           className="btn btn-primary mt-4"
-                          onClick={() => handleExpandPost(post.postId)}
+                          onClick={() => handleExpandRecentPost(post.postId)}
                         >
-                          {expandedPost === post.postId ? 'Collapse' : 'View comments'}
+                          {expandedRecentPost === post.postId ? 'Collapse' : 'View comments'}
                         </button>
                       </div>
                     </div>
@@ -179,13 +179,13 @@ export default function Home() {
         <div className="col-lg-6">
           <div className="card p-0">
             <div className="h2 text-center mb-4 card-header bg-primary text-white p-3">
-              Most recent posts
+              Most commented posts
             </div>
             {mostCommentedPosts.map((post) => (
               <div className="card m-3 mb-3 mt-0" key={post.postId}>
                 <div className="bg-dark text-white h5 p-3 card-header">{post.title}</div>
                 <div className="card-body">
-                  {expandedPost === post.postId ? (
+                  {expandedCommentedPost === post.postId ? (
                     <div>
                       <p>{post.content}</p>
                       <hr />
@@ -200,9 +200,9 @@ export default function Home() {
                       <div>
                         <button
                           className="btn btn-primary mt-4"
-                          onClick={() => handleExpandPost(post.postId)}
+                          onClick={() => handleExpandCommentedPost(post.postId)}
                         >
-                          {expandedPost === post.postId ? 'Collapse ⇕' : 'View comments ⇕'}
+                          {expandedCommentedPost === post.postId ? 'Collapse ⇕' : 'View comments ⇕'}
                         </button>
                       </div>
                     </div>
