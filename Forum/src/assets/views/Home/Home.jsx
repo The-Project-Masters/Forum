@@ -1,20 +1,34 @@
-import { useEffect, useState, useContext } from 'react';
-import { ref, onValue, get } from 'firebase/database';
-import { db } from '../../config/firebase';
-import LikesDislikes from '../../components/Likes-Dislikes/LikesDislikes';
-import Comments from '../../components/Comments/Comments';
-import UserContext from '../../providers/user.context';
+import { useEffect, useState, useContext } from "react";
+import { ref, onValue, get } from "firebase/database";
+import { db } from "../../config/firebase";
+import LikesDislikes from "../../components/Likes-Dislikes/LikesDislikes";
+import Comments from "../../components/Comments/Comments";
+import UserContext from "../../providers/user.context";
 
 export default function Home() {
-  const [mostCommentedPosts, setMostCommentedPosts] = useState([]);  
+  const [mostCommentedPosts, setMostCommentedPosts] = useState([]);
   const [mostRecentPosts, setMostRecentPosts] = useState([]);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalPosts, setTotalPosts] = useState(0);
   const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch the total number of registered users
+        const usersRef = ref(db, "users");
+        const usersSnapshot = await get(usersRef);
+        const usersData = usersSnapshot.val();
+        const totalUsers = usersData ? Object.keys(usersData).length : 0;
+
+        // Fetch the total number of posts
+        const postsRef = ref(db, "posts");
+        const postsSnapshot = await get(postsRef);
+        const postsData = postsSnapshot.val();
+        const totalPosts = postsData ? Object.keys(postsData).length : 0;
+
         // Fetch the 10 most commented posts
-        const commentsRef = ref(db, 'comments');
+        const commentsRef = ref(db, "comments");
         const commentsSnapshot = await get(commentsRef);
         const commentsData = commentsSnapshot.val();
 
@@ -35,7 +49,12 @@ export default function Home() {
               const postData = postSnapshot.val();
 
               // Filter out posts without titles, content, and authors
-              if (postData && postData.title && postData.content && postData.user) {
+              if (
+                postData &&
+                postData.title &&
+                postData.content &&
+                postData.user
+              ) {
                 return { postId, ...postData };
               } else {
                 return null;
@@ -44,13 +63,15 @@ export default function Home() {
           );
 
           // Remove null values from the array
-          const filteredMostCommentedPosts = mostCommentedPostsArray.filter((post) => post !== null);
+          const filteredMostCommentedPosts = mostCommentedPostsArray.filter(
+            (post) => post !== null
+          );
 
           setMostCommentedPosts(filteredMostCommentedPosts);
         }
 
         // Fetch the 10 most recent posts
-        const recentPostsRef = ref(db, 'posts');
+        const recentPostsRef = ref(db, "posts");
         const recentPostsSnapshot = await get(recentPostsRef);
         const postData = recentPostsSnapshot.val();
 
@@ -63,14 +84,18 @@ export default function Home() {
 
           setMostRecentPosts(sortedRecentPosts);
         }
+
+        // Set the total number of registered users and total number of posts in the state
+        setTotalUsers(totalUsers);
+        setTotalPosts(totalPosts);
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
 
-    const postsRef = ref(db, 'posts');
+    const postsRef = ref(db, "posts");
     const unsubscribe = onValue(postsRef, fetchData);
 
     return () => unsubscribe();
@@ -78,18 +103,37 @@ export default function Home() {
 
   return (
     <div className="row">
+      <div className="col-lg-6 mt-4">
+        <div className="card mb-4">
+          <div className="bg-dark text-white h5 p-3 card-header">
+            Total Users: {totalUsers}
+          </div>
+        </div>
+      </div>
+      <div className="col-lg-6 mt-4">
+        <div className="card mb-4">
+          <div className="bg-dark text-white h5 p-3 card-header">
+            Total Posts: {totalPosts}
+          </div>
+        </div>
+      </div>
       <div className="col-lg-6 ">
         <h3 className="mt-4 mb-4 text-center">Most Recent Posts</h3>
         {mostRecentPosts.map((post) => (
           <div className="card mb-4" key={post.postId}>
-            <div className="bg-dark text-white h5 p-3 card-header">{post.title}</div>
+            <div className="bg-dark text-white h5 p-3 card-header">
+              {post.title}
+            </div>
             <div className="card-body">
               <p>{post.content}</p>
               <hr />
               <div className="row">
                 <div className="col-md-6 align-items-start">
                   <p>
-                    Created by: <strong>@{post.user ? post.user.handle : 'Unknown User'}</strong>
+                    Created by:{" "}
+                    <strong>
+                      @{post.user ? post.user.handle : "Unknown User"}
+                    </strong>
                   </p>
                 </div>
                 <div className="col-md-6 align-items-end">
@@ -104,14 +148,19 @@ export default function Home() {
         <h3 className="mt-4 mb-4 text-center">Most Commented Posts</h3>
         {mostCommentedPosts.map((post) => (
           <div className="card mb-4" key={post.postId}>
-            <div className="bg-dark text-white h5 p-3 card-header">{post.title}</div>
+            <div className="bg-dark text-white h5 p-3 card-header">
+              {post.title}
+            </div>
             <div className="card-body">
               <p>{post.content}</p>
               <hr />
               <div className="row">
                 <div className="col-md-6 align-items-start">
                   <p>
-                    Created by: <strong>@{post.user ? post.user.handle : 'Unknown User'}</strong>
+                    Created by:{" "}
+                    <strong>
+                      @{post.user ? post.user.handle : "Unknown User"}
+                    </strong>
                   </p>
                 </div>
                 <div className="col-md-6 align-items-end">
