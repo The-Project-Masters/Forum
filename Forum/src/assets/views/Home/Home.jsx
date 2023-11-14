@@ -10,6 +10,7 @@ export default function Home() {
   const [mostRecentPosts, setMostRecentPosts] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalPosts, setTotalPosts] = useState(0);
+  const [expandedPost, setExpandedPost] = useState(null); // New state
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -101,6 +102,10 @@ export default function Home() {
     return () => unsubscribe();
   }, [user]);
 
+  const handleExpandPost = (postId) => {
+    setExpandedPost(postId === expandedPost ? null : postId);
+  };
+
   return (
     <div className="row">
       <div className="col-lg-6 mt-4">
@@ -125,8 +130,15 @@ export default function Home() {
               {post.title}
             </div>
             <div className="card-body">
-              <p>{post.content}</p>
-              <hr />
+              {expandedPost === post.postId ? (
+                <div>
+                  <p>{post.content}</p>
+                  <hr />
+                  <Comments postId={post.postId} />
+                </div>
+              ) : (
+                <p>{post.content.slice(0, 100)}...</p>
+              )}
               <div className="row">
                 <div className="col-md-6 align-items-start">
                   <p>
@@ -138,6 +150,12 @@ export default function Home() {
                 </div>
                 <div className="col-md-6 align-items-end">
                   <LikesDislikes postId={post.postId} />
+                  <button
+                    className="btn btn-link"
+                    onClick={() => handleExpandPost(post.postId)}
+                  >
+                    {expandedPost === post.postId ? "Collapse" : "View"}
+                  </button>
                 </div>
               </div>
             </div>
@@ -152,8 +170,15 @@ export default function Home() {
               {post.title}
             </div>
             <div className="card-body">
-              <p>{post.content}</p>
-              <hr />
+              {expandedPost === post.postId ? (
+                <div>
+                  <p>{post.content}</p>
+                  <hr />
+                  <Comments postId={post.postId} />
+                </div>
+              ) : (
+                <p>{post.content.slice(0, 100)}...</p>
+              )}
               <div className="row">
                 <div className="col-md-6 align-items-start">
                   <p>
@@ -165,6 +190,12 @@ export default function Home() {
                 </div>
                 <div className="col-md-6 align-items-end">
                   <LikesDislikes postId={post.postId} />
+                  <button
+                    className="btn btn-link"
+                    onClick={() => handleExpandPost(post.postId)}
+                  >
+                    {expandedPost === post.postId ? "Collapse" : "View"}
+                  </button>
                 </div>
               </div>
             </div>
