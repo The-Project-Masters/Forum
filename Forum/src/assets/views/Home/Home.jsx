@@ -3,33 +3,33 @@ import { ref, onValue, get } from 'firebase/database';
 import { db } from '../../config/firebase';
 import LikesDislikes from '../../components/Likes-Dislikes/LikesDislikes';
 import Comments from '../../components/Comments/Comments';
-import UserContext from '../../providers/user.context'; // Import your user context
+import UserContext from '../../providers/user.context';
 
 export default function Home() {
-  const [mostLikedPosts, setMostLikedPosts] = useState([]);
+  const [mostCommentedPosts, setMostCommentedPosts] = useState([]);  // Updated state name
   const [mostRecentPosts, setMostRecentPosts] = useState([]);
   const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch the 10 most liked/disliked posts
-        const likesRef = ref(db, 'likes');
-        const likesSnapshot = await get(likesRef);
-        const likesData = likesSnapshot.val();
+        // Fetch the 10 most commented posts
+        const commentsRef = ref(db, 'comments');
+        const commentsSnapshot = await get(commentsRef);
+        const commentsData = commentsSnapshot.val();
 
-        if (likesData) {
-          const postIdArray = Object.keys(likesData);
-          const sortedMostLikedPosts = postIdArray
+        if (commentsData) {
+          const postIdArray = Object.keys(commentsData);
+          const sortedMostCommentedPosts = postIdArray
             .sort((a, b) => {
-              const likesA = Object.keys(likesData[a] || {}).length;
-              const likesB = Object.keys(likesData[b] || {}).length;
-              return likesB - likesA;
+              const commentsA = Object.keys(commentsData[a] || {}).length;
+              const commentsB = Object.keys(commentsData[b] || {}).length;
+              return commentsB - commentsA;
             })
             .slice(0, 10);
 
-          const mostLikedPostsArray = await Promise.all(
-            sortedMostLikedPosts.map(async (postId) => {
+          const mostCommentedPostsArray = await Promise.all(
+            sortedMostCommentedPosts.map(async (postId) => {
               const postRef = ref(db, `posts/${postId}`);
               const postSnapshot = await get(postRef);
               const postData = postSnapshot.val();
@@ -37,7 +37,7 @@ export default function Home() {
             })
           );
 
-          setMostLikedPosts(mostLikedPostsArray);
+          setMostCommentedPosts(mostCommentedPostsArray);
         }
 
         // Fetch the 10 most recent posts
@@ -48,7 +48,7 @@ export default function Home() {
         if (postData) {
           const sortedRecentPosts = Object.entries(postData)
             .sort(([, postA], [, postB]) => postB.timestamp - postA.timestamp)
-            .slice(-10)
+            .slice(0, 10)
             .map(([postId, post]) => ({ postId, ...post }))
             .reverse();
 
@@ -93,8 +93,8 @@ export default function Home() {
         ))}
       </div>
       <div className="col-lg-6">
-        <h3 className="mt-4 mb-4 text-center">Most Liked Posts</h3>
-        {mostLikedPosts.map((post) => (
+        <h3 className="mt-4 mb-4 text-center">Most Commented Posts</h3>
+        {mostCommentedPosts.map((post) => (
           <div className="card mb-4" key={post.postId}>
             <div className="bg-dark text-white h5 p-3 card-header">{post.title}</div>
             <div className="card-body">
