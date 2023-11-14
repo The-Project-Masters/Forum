@@ -6,7 +6,7 @@ import Comments from '../../components/Comments/Comments';
 import UserContext from '../../providers/user.context';
 
 export default function Home() {
-  const [mostCommentedPosts, setMostCommentedPosts] = useState([]);  // Updated state name
+  const [mostCommentedPosts, setMostCommentedPosts] = useState([]);  
   const [mostRecentPosts, setMostRecentPosts] = useState([]);
   const { user } = useContext(UserContext);
 
@@ -33,11 +33,20 @@ export default function Home() {
               const postRef = ref(db, `posts/${postId}`);
               const postSnapshot = await get(postRef);
               const postData = postSnapshot.val();
-              return { postId, ...postData };
+
+              // Filter out posts without titles, content, and authors
+              if (postData && postData.title && postData.content && postData.user) {
+                return { postId, ...postData };
+              } else {
+                return null;
+              }
             })
           );
 
-          setMostCommentedPosts(mostCommentedPostsArray);
+          // Remove null values from the array
+          const filteredMostCommentedPosts = mostCommentedPostsArray.filter((post) => post !== null);
+
+          setMostCommentedPosts(filteredMostCommentedPosts);
         }
 
         // Fetch the 10 most recent posts
@@ -65,7 +74,7 @@ export default function Home() {
     const unsubscribe = onValue(postsRef, fetchData);
 
     return () => unsubscribe();
-  }, [user]); // Add user to the dependency array
+  }, [user]);
 
   return (
     <div className="row">
@@ -84,7 +93,6 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="col-md-6 align-items-end">
-                  {/* pass postId to LikesDislikes and Comments */}
                   <LikesDislikes postId={post.postId} />
                 </div>
               </div>
@@ -107,7 +115,6 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="col-md-6 align-items-end">
-                  {/* pass postId to LikesDislikes and Comments */}
                   <LikesDislikes postId={post.postId} />
                 </div>
               </div>
