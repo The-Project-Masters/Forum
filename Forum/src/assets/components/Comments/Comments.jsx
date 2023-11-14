@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { ref, onValue, push } from 'firebase/database';
 import { db } from '../../config/firebase';
 import UserContext from '../../providers/user.context';
-import LikesDislikes from '../Likes-Dislikes/LikesDislikes';
 
 export default function Comments({ postId }) {
   const [comments, setComments] = useState([]);
@@ -47,7 +46,6 @@ export default function Comments({ postId }) {
               </h5>
               <div>{comment.content}</div>
             </div>
-            {/* <LikesDislikes postId={postId} commentId={comment.id} /> */}
           </div>
         ))}
       </div>

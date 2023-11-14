@@ -3,7 +3,6 @@ import { useEffect, useState, useContext } from 'react';
 import { ref, onValue, get } from 'firebase/database';
 import { db } from '../../config/firebase';
 import { addPost, deletePost } from '../../services/post.service';
-import { getUserData } from '../../services/users.services';
 import UserContext from '../../providers/user.context';
 import LikesDislikes from '../../components/Likes-Dislikes/LikesDislikes';
 import Comments from '../../components/Comments/Comments';
