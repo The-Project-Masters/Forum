@@ -18,3 +18,5 @@
 #root > .container-fluid > .row {
   height: calc(100vh - 80px);
 }
+
+html { scroll-behavior: smooth; }

@@ -21,11 +21,11 @@ const Header = ({ loading, appState, userRole }) => {
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg" className="p-2">
       <Navbar.Brand as={Link} to="/">
-        Rado & Ventsi's Forum
+        {<img src="./src/assets/images/logo-main.png" alt="BG-Tatko logo" width="170px"></img>}
       </Navbar.Brand>
-      {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           {!loading ? (

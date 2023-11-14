@@ -1,0 +1,52 @@
+.main-banner {
+    background-image: url("./src/assets/images/main-banner-1.jpg");
+    background-position: 50% 45%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 101.55%;
+    height: 90vh;
+}
+
+.banner-overlay {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.banner-content h1 {
+    font-size: 6em;
+    line-height: 1.2em;
+    font-weight: 700;
+}
+
+.banner-content h3 {
+    font-size: 2em;
+    line-height: 2em;
+    font-weight: 500;
+}
+
+#Trending, #MostRecent { margin-bottom: 15vh !important; }
+
+#Trending .h1 {
+    font-size: 5em;
+    line-height: 1em;
+}
+
+#Trending .h2, #MostRecent .h1 {
+    font-size: 3em;
+    line-height: 2em;
+    font-weight: 700;
+}
+
+#Trending .h3 {
+    font-weight: 400;
+}

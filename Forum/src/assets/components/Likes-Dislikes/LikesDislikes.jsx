@@ -86,10 +86,10 @@ export default function LikesDislikes({ postId, commentId }) {
 
   return (
     <div>
-      <button className="btn-success btn m-1" onClick={handleLike}>
+      <button className="btn-success btn m-1 mb-0" onClick={handleLike}>
         Like ({Object.keys(likes || {}).length})
       </button>
-      <button className="btn-danger btn m-1" onClick={handleDislike}>
+      <button className="btn-danger btn m-1 mb-0" onClick={handleDislike}>
         Dislike ({Object.keys(dislikes || {}).length})
       </button>
     </div>
