@@ -49,7 +49,9 @@ function App() {
       <UserContext.Provider value={{ ...appState, setContext: setUserState }}>
         <Header loading={loading} appState={appState} userRole={userRoles} />
         <Container fluid>
-          <div style={{ textAlign: 'center' }}>{loading ? <p>Loading user data</p> : null}</div>
+          <div style={{ textAlign: 'center' }}>
+            {loading ? <p className="loading">Loading user data</p> : null}
+          </div>
           <Row>
             <Col sm="3" xs="4" className="bg-secondary side-nav">
               <Routes>
