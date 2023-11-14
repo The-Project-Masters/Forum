@@ -39,11 +39,11 @@ const LogIn = () => {
 
   return (
     <>
-      <h2 className="text-white text-center mb-4">Log In</h2>
-      <Form className="Form text-center">
+      <h2 className="text-white mt-3 mb-3">Log In</h2>
+      <Form className="Form text-left mb-4">
         {['email', 'password'].map((field) => (
-          <Form.Group key={field} className="form-group row">
-            <Form.Label htmlFor={field} className="col-sm-2 text-white text-right">
+          <Form.Group key={field} className="form-group mb-2">
+            <Form.Label htmlFor={field} className="col-sm-6 m-2 text-white">
               {field.charAt(0).toUpperCase() + field.slice(1)}:{' '}
             </Form.Label>
             <Col xs="10">
@@ -60,8 +60,8 @@ const LogIn = () => {
         <Button onClick={handleLogin}>Login</Button>
       </Form>
 
-      <div className="w-100 text-white text-center mt-2">
-        Need an account?{' '}
+      <div className="w-100 text-white mt-2">
+        Need an account?
         <Link to="/register" className="text-white">
           <strong>Register</strong>
         </Link>

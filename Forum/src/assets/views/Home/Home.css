@@ -1,6 +1,7 @@
 .main-banner {
     background-image: url("./src/assets/images/main-banner-1.jpg");
-    background-position: 50% 45%;
+    background-attachment: fixed;
+    background-position: 50% -25%;
     background-repeat: no-repeat;
     background-size: cover;
     width: 101.55%;

@@ -38,10 +38,10 @@ export default function Comments({ postId }) {
   return (
     <div className="pt-3 pb-3">
       <h4>Comments:</h4>
-      <div className="list-group list-group-flush">
+      <div className="list-group list-group-flush mb-4">
         {comments.map((comment) => (
           <div key={comment.id}>
-            <div className="m-4">
+            <div className="m-4 mt-2 mb-2">
               <h5>
                 {comment.userData ? comment.userData.handle || 'Unknown User' : 'Unknown User'}
               </h5>

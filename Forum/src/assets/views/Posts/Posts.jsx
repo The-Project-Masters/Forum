@@ -78,7 +78,7 @@ export default function Posts() {
 
   return (
     <div>
-      <form className="card mt-4 mb-4 p-4">
+      <form className="container card m-auto mt-4 mb-4 p-4">
         <h2 className="mb-4">Create new post</h2>
         <div className="mb-3">
           <label className="form-label">Title:</label>
@@ -104,8 +104,8 @@ export default function Posts() {
         </div>
       </form>
 
-      <div className="search bg-primary card p-3 mt-3 mb-4">
-        <h5 className="mb-3 text-white">Search posts:</h5>
+      <div className="search container m-auto bg-primary card p-3 mt-3 mb-4">
+        <h5 className="mb-3 text-white">Search posts</h5>
         <input
           className="form-control"
           type="text"
@@ -118,7 +118,7 @@ export default function Posts() {
       {searchQuery !== '' ? (
         posts.length > 0 ? (
           posts.map((post) => (
-            <div className="card mb-4" key={post.id}>
+            <div className="container card m-auto p-0 mb-4" key={post.id}>
               <div className="bg-dark text-white h4 p-3 card-header row m-0">
                 <div className="col-lg-6 text-left p-0">{post.title}</div>
                 <div className="col-lg-6 align-items-end text-white">
@@ -129,7 +129,6 @@ export default function Posts() {
                     X
                   </button>
                 </div>
-                {/* Move user.email here */}
               </div>
               <div className="card-body">
                 <p>{post.content}</p>
@@ -137,7 +136,7 @@ export default function Posts() {
                 <div className="row">
                   <div className="col-md-6 align-items-start">
                     <p className="mb-0">
-                      Author: <strong>@{post.user ? post.user.handle : 'Unknown User'}</strong>
+                      Created by: <strong>@{post.user ? post.user.handle : 'Unknown User'}</strong>
                     </p>
                   </div>
                   <div className="col-md-6 align-items-end">
@@ -155,10 +154,10 @@ export default function Posts() {
         )
       ) : (
         posts.map((post) => (
-          <div className="card mb-4" key={post.id}>
+          <div className="container card m-auto p-0 mb-4" key={post.id}>
             <div className="bg-dark text-white h4 p-3 card-header row m-0">
-              <div className="col-lg-6 text-left p-0">{post.title}</div>
-              <div className="col-lg-6 align-items-end text-white">
+              <div className="col-10 text-left p-0">{post.title}</div>
+              <div className="col-2 align-items-end text-white">
                 <button
                   className="delete-post btn bg-danger text-white"
                   onClick={() => handleDeletePost(post.id)}

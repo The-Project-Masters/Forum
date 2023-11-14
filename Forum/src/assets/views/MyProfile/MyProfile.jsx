@@ -63,7 +63,7 @@ const MyProfile = () => {
   };
 
   return (
-    <div className="card mt-4 mb-4 p-4">
+    <div className="container card m-auto mt-4 mb-4 p-4">
       <h2 className="mb-4">My Profile</h2>
       <Form className="Form">
         {['email', 'firstName', 'lastName'].map((field) => (
