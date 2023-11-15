@@ -1,5 +1,5 @@
 import './Admin.css';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { userRoles } from '../../common/user-roles';
 import { Card, ListGroup, Row, Col } from 'react-bootstrap';
 import { getLiveUserDatas, getUserDatas, updateUserRole } from '../../services/users.services';
@@ -50,7 +50,7 @@ const Admin = () => {
 
   return (
     <>
-      <div className="card mt-4 mb-4 p-4">
+      <div className="container card m-auto mt-4 mb-4 p-4 pb-1">
         <h2>This is the Admin page</h2>
 
         <div className="search card p-3 mt-3">

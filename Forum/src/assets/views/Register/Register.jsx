@@ -79,11 +79,11 @@ const Register = () => {
 
   return (
     <>
-      <h2 className="text-white text-center mb-4">Register</h2>
-      <Form className="Form text-center">
+      <h2 className="text-white mt-3 mb-3">Register</h2>
+      <Form className="Form text-left mb-4">
         {['email', 'handle', 'firstName', 'lastName', 'password'].map((field) => (
-          <Form.Group key={field} className="form-group row">
-            <Form.Label htmlFor={field} className={`col-sm-3 text-white text-right`}>
+          <Form.Group key={field} className="form-group mb-2">
+            <Form.Label htmlFor={field} className={`col-sm-6 m-2 text-white`}>
               {field === 'firstName'
                 ? 'First name'
                 : field === 'lastName'
@@ -105,8 +105,8 @@ const Register = () => {
         <Button onClick={handleRegistration}>Register</Button>
       </Form>
 
-      <div className="w-100 text-white text-center mt-2">
-        Already have an account?{' '}
+      <div className="w-100 text-white mt-2">
+        Already have an account?
         <Link to="/login" className="text-white">
           <strong>Login</strong>
         </Link>

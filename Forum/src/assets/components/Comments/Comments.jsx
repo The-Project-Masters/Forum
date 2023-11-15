@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { ref, onValue, push } from 'firebase/database';
 import { db } from '../../config/firebase';
 import UserContext from '../../providers/user.context';
-import LikesDislikes from '../Likes-Dislikes/LikesDislikes';
 
 export default function Comments({ postId }) {
   const [comments, setComments] = useState([]);
@@ -38,16 +37,15 @@ export default function Comments({ postId }) {
   return (
     <div className="pt-3 pb-3">
       <h4>Comments:</h4>
-      <div className="list-group list-group-flush">
+      <div className="list-group list-group-flush mb-4">
         {comments.map((comment) => (
           <div key={comment.id}>
-            <div className="m-4">
+            <div className="m-4 mt-2 mb-2">
               <h5>
                 {comment.userData ? comment.userData.handle || 'Unknown User' : 'Unknown User'}
               </h5>
               <div>{comment.content}</div>
             </div>
-            {/* <LikesDislikes postId={postId} commentId={comment.id} /> */}
           </div>
         ))}
       </div>
