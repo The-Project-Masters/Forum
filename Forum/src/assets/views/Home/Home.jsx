@@ -163,7 +163,7 @@ export default function Home() {
                           className="btn btn-primary mt-4"
                           onClick={() => handleExpandRecentPost(post.postId)}
                         >
-                          {expandedRecentPost === post.postId ? 'Collapse' : 'View comments'}
+                          {expandedRecentPost === post.postId ? 'Collapse ⇕' : 'View comments ⇕'}
                         </button>
                       </div>
                     </div>

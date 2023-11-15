@@ -35,7 +35,7 @@ export default function Posts() {
             post.content.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
-        setPosts(searchQuery !== '' ? (filtered.length > 0 ? filtered : []) : postArray);
+        setPosts(searchQuery !== '' ? (filtered.length > 0 ? filtered : []) : postArray.reverse())
       }
     } catch (error) {
       console.error('Error fetching posts:', error);
